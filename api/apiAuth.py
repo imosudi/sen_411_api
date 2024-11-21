@@ -64,8 +64,7 @@ class authenticateAppUser(graphene.Mutation):
 
 class enrolAppUser(graphene.Mutation):
     class Arguments:
-        #enroldata   = enrolAppUserInput()
-        enrolmentappuserinput               = enrolmentAppUserInput(required=True)
+        enrolmentappuserinput = enrolmentAppUserInput(required=True)
 
     error       = graphene.Boolean()
     success_msg = graphene.Boolean()
@@ -73,70 +72,79 @@ class enrolAppUser(graphene.Mutation):
 
     @classmethod
     def mutate(cls, __, info, enrolmentappuserinput, **args):
-    #def mutate(cls, __, info, email, password, password_confirm, dirphoneNumber, dirlastName, dirfirstname, registeredBusinessname, city, state, **args):
         email                   = enrolmentappuserinput.email
         password                = enrolmentappuserinput.password
-        password_confirm        = enrolmentappuserinput.password_confirm 
+        password_confirm        = enrolmentappuserinput.password_confirm
 
-        
+        # Validate email format
         if not confirmEmail.isValid(email):
             return enrolAppUser(
-                error   = True, 
-                message = "{email} not a valid email! Kindly use a valid email address",
-                success_msg = False
+                error=True, 
+                message=f"{email} is not a valid email! Kindly use a valid email address.",
+                success_msg=False
             )
                             
+        # Ensure passwords match
         if password != password_confirm:
             return enrolAppUser(
-                error       = True,
-                message     = "Password mismatch! Ensure same for password and password_confirm",
-                success_msg = False
+                error=True,
+                message="Password mismatch! Ensure the same value for password and password_confirm.",
+                success_msg=False
             )
 
-        existing_users  = UserObject.get_query(info)
-        thisUser        = existing_users.filter(UserModel.email==email).first()
+        # Check if the user already exists
+        existing_users = UserObject.get_query(info)
+        thisUser = existing_users.filter(UserModel.email == email).first()
 
         if thisUser:
-            error       = True #f"User with this email address, {email} exists"
-            message     = "App user with this email address, {email} exists. \n You might want to reset your password if you're unable to connect"
-            success_msg = False
+            return enrolAppUser(
+                error=True,
+                message=f"App user with this email address, {email}, exists. \nYou might want to reset your password if you're unable to connect.",
+                success_msg=False
+            )
 
+        # Generate unique identifier
         fs_uniquifierbuild = generateUniqueString('uniquifier')
-        fs_uniquifier       = fs_uniquifierbuild.generateString()
-        new_user = User(
-                        email                   = email,
-                        password                = generate_password_hash(password, method="sha256"),
-                        #password                = generate_password_hash(password, method="scrypt"),
-                        fs_uniquifier           = fs_uniquifier
-                    )
+        fs_uniquifier = fs_uniquifierbuild.generateString()
 
+        # Check if this is the first user
+        is_first_user = not existing_users.count()
+
+        # Create the new user
+        new_user = User(
+            email=email,
+            password=generate_password_hash(password, method="sha256"),
+            fs_uniquifier=fs_uniquifier,
+            active=is_first_user,  # Activate the first user by default
+            is_valid_client=is_first_user  # Validate the first user by default
+        )
+
+        # Add the new user to the database
         try:
             db.session.add(new_user)
             db.session.commit()
-            db.session.close()
-            error       = False
-            message     = f"Registration for {email}, successful! "
-            success_msg = True
+            message = f"Registration for {email} successful!"
+            return enrolAppUser(
+                error=False,
+                message=message,
+                success_msg=True
+            )
 
         except IntegrityError as e:
+            db.session.rollback()
             return enrolAppUser(
-                error       = True,
-                message     = f"Registration failed! {e.orig}",
-                success_msg = False
+                error=True,
+                message=f"Registration failed due to database error: {e.orig}",
+                success_msg=False
             )
-        
-        except:
+
+        except Exception as e:
+            db.session.rollback()
             return enrolAppUser(
-                error       = True,
-                message     = f"Registration failed!",
-                success_msg = False
+                error=True,
+                message=f"Registration failed due to an error: {str(e)}",
+                success_msg=False
             )
-        
-        return enrolAppUser(
-                            error       = error,
-                            message     = message,
-                            success_msg = success_msg
-                    )
 
 
 class activateAppUser(graphene.Mutation):
@@ -188,6 +196,115 @@ class activateAppUser(graphene.Mutation):
         except Exception as e:
             db.session.rollback()
             return activateAppUser(
+                error=True,
+                message=f"Activation failed due to an error: {str(e)}",
+                success_msg=False
+            )
+
+class deactivateAppUser(graphene.Mutation):
+    error       = graphene.Boolean()
+    success_msg = graphene.Boolean()
+    message     = graphene.String()
+
+    class Arguments:
+        email = graphene.String(required=True)
+
+    @classmethod
+    def mutate(cls, __, info, email, **args):
+        # Validate the email
+        if not confirmEmail.isValid(email):
+            return deactivateAppUser(
+                error=True,
+                message=f"{email} is not a valid email! Kindly use a valid email address.",
+                success_msg=False
+            )
+
+        # Query the user by email
+        existing_users = UserObject.get_query(info)
+        thisUser = existing_users.filter(UserModel.email == email).first()
+
+        if not thisUser:
+            return deactivateAppUser(
+                error=True,
+                message=f"No user found with email {email}. Please check the email.",
+                success_msg=False
+            )
+
+        if not thisUser.active:
+            return deactivateAppUser(
+                error=False,
+                message=f"The user with email {email} is already deactivated.",
+                success_msg=True
+            )
+
+        # Deactivate the user
+        try:
+            thisUser.active = False
+            db.session.commit()
+            message = f"User with email {email} has been successfully deactivated!"
+            return deactivateAppUser(
+                error=False,
+                message=message,
+                success_msg=True
+            )
+        except Exception as e:
+            db.session.rollback()
+            return deactivateAppUser(
+                error=True,
+                message=f"Deactivation failed due to an error: {str(e)}",
+                success_msg=False
+            )
+
+
+class validateAppUser(graphene.Mutation):
+    error       = graphene.Boolean()
+    success_msg = graphene.Boolean()
+    message     = graphene.String()
+
+    class Arguments:
+        email       = graphene.String(required=True)
+
+    @classmethod
+    def mutate(cls, __, info, email, **args):
+        # Validate the email
+        if not confirmEmail.isValid(email):
+            return validateAppUser(
+                error=True, 
+                message=f"{email} is not a valid email! Kindly use a valid email address.",
+                success_msg=False
+            )
+
+        # Query the user by email
+        existing_users = UserObject.get_query(info)
+        thisUser = existing_users.filter(UserModel.email == email).first()
+
+        if not thisUser:
+            return validateAppUser(
+                error=True,
+                message=f"No user found with email {email}. Please check the email or register first.",
+                success_msg=False
+            )
+
+        if thisUser.is_valid_client:
+            return validateAppUser(
+                error=False,
+                message=f"The user with email {email} is already validated.",
+                success_msg=True
+            )
+
+        # Activate the user
+        try:
+            thisUser.is_valid_client = True
+            db.session.commit()
+            message = f"User with email {email} has been successfully validated!"
+            return activateAppUser(
+                error=False,
+                message=message,
+                success_msg=True
+            )
+        except Exception as e:
+            db.session.rollback()
+            return validateAppUser(
                 error=True,
                 message=f"Activation failed due to an error: {str(e)}",
                 success_msg=False
