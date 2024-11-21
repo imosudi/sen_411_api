@@ -51,7 +51,7 @@ Visit http://localhost:8091
 
 ## Sample usage
 QUERY:
-```json
+```graphql
 mutation($enrolmentappuserinput: enrolmentAppUserInput!){
   enrolAppUser(
     enrolmentappuserinput:$enrolmentappuserinput
