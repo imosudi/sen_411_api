@@ -10,14 +10,14 @@ A basic startup point for API development
 # Create .env file
  $ touch app/.env     
 
- $ cat <<EOT >> app/.env
- API_DB_HOST="db-hostname-or-IP-address"
- API_DB_USER="graphqlapidb"
- API_DB_PASS="theweekPasswordthatmustbereplaced"
- API_DB_NAME="graphqlapidb"
+ $ cat <<EOT > app/.env
+API_DB_HOST="db-hostname-or-IP-address"
+API_DB_USER="graphqlapidb"
+API_DB_PASS="theweekPasswordthatmustbereplaced"
+API_DB_NAME="graphqlapidb"
 
- API_FLASK_SECRET="verydifficult-secret-key-goes-here-thismustbereplacedinproduction"
- JWT_SECRET_KEY="anotherverydifficult-secret-key-goes-here-alsomustbereplacedinproduction"
+API_FLASK_SECRET="verydifficult-secret-key-goes-here-thismustbereplacedinproduction"
+JWT_SECRET_KEY="anotherverydifficult-secret-key-goes-here-alsomustbereplacedinproduction"
 EOT
 
 
