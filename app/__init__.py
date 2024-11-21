@@ -15,7 +15,7 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 
 # app configs
-app.config["JWT_SECRET_KEY"] = flask_secret 
+app.config["JWT_SECRET_KEY"] = jwt_secret_key 
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 10  # 10 minutes
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = 3  # 30 days
 
