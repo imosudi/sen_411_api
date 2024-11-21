@@ -31,9 +31,13 @@ EOT
 
 # Database initialisation
  (venv)$ flask db init
+
  (venv)$ flask db migrate   
+
  #run thia after every modification of app/models.py
- (venv)$ flask db upgrade   
+ 
+ (venv)$ flask db upgrade  
+
  #run thia after every modification of app/models.py
  
 
