@@ -14,8 +14,8 @@ load_dotenv(dotenv_path)
 
 ### SQLAlchemy config
 #dbhost="mio1.serverafrica.net"
-dbhost	        = os.environ.get("DB_HOST") 
-dbname	        = os.environ.get("DB_NAME") 
-dbuser	        = os.environ.get("DB_USER") 
-pw	            = os.environ.get("DB_PASS")
-flask_secret    = os.environ.get("FLASK_SECRET")
+dbhost	        = os.environ.get("API_DB_HOST") 
+dbname	        = os.environ.get("API_DB_NAME") 
+dbuser	        = os.environ.get("API_DB_USER") 
+pw	            = os.environ.get("API_DB_PASS")
+flask_secret    = os.environ.get("API_FLASK_SECRET")
