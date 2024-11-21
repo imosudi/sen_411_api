@@ -1,50 +1,51 @@
 # sen_411_api
 A basic startup point for API development
 
-# Clone repo    
- $ git clone https://github.com/imosudi/sen_411_api.git   
+## Clone the Repository
+```bash
+git clone https://github.com/imosudi/sen_411_api.git
+cd sen_411_api/
+```
 
- $ cd sen_411_api/    
+## Create .env File
+```bash
+touch app/.env
+```
 
-
-# Create .env file
- $ touch app/.env     
-
- $ cat <<EOT > app/.env
-
+```bash
+cat <<EOT > app/.env
 API_DB_HOST="db-hostname-or-IP-address"
-
 API_DB_USER="graphqlapidb"
-
 API_DB_PASS="theweekPasswordthatmustbereplaced"
-
 API_DB_NAME="graphqlapidb"
-
 API_FLASK_SECRET="verydifficult-secret-key-goes-here-thismustbereplacedinproduction"
-
 JWT_SECRET_KEY="anotherverydifficult-secret-key-goes-here-alsomustbereplacedinproduction"
-
 EOT
+```
 
+## Create and Activate Python Virtual Environment
 
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+Install Required Libraries
+```bash
+pip install -r requirements.txt
+```
+## Database Initialisation
+```bash
+flask db init
+flask db migrate       # Run this after every modification of app/models.py
+flask db upgrade       # Run this after every modification of app/models.py
+```
 
-# Create and activate Python virtual environment
- $ python3 -m venv venv
- $ source venv/bin/activate
- 
-# Install required libraries 
- (venv)$ pip install -r requirements.txt 
+## Start the API
+```bash
+python main.py
+```
 
-# Database initialisation
- (venv)$ flask db init
+## Access the Web Interface
 
- (venv)$ flask db migrate       #run thia after every modification of app/models.py
+Visit http://localhost:8091
 
- (venv)$ flask db upgrade       #run thia after every modification of app/models.py
- 
-
-# Start the API
- (venv)$ python main.py 
-
-# Access the web interface
- http://localhost:8091
