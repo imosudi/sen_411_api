@@ -49,3 +49,40 @@ python main.py
 
 Visit http://localhost:8091
 
+## Sample usage
+QUERY:
+```json
+mutation($enrolmentappuserinput: enrolmentAppUserInput!){
+  enrolAppUser(
+    enrolmentappuserinput:$enrolmentappuserinput
+  ){
+    error
+    successMsg
+    message
+  }
+}
+```
+
+QUERY VARIABLES:
+```json
+{
+  "enrolmentappuserinput": {
+    "email": "imosudi@gmail.com",
+    "password": "nopassword",
+    "passwordConfirm": "nopassword"
+  }
+}
+```
+
+RESPONSE:
+```json
+{
+  "data": {
+    "enrolAppUser": {
+      "error": false,
+      "successMsg": true,
+      "message": "Registration for imosudi@gmail.com, successful! "
+    }
+  }
+}
+```
