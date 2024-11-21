@@ -33,3 +33,5 @@ class User(db.Model, UserMixin): #fsqla.FsUserMixin):
     confirmed_at        = db.Column(db.DateTime())
     roles               = relationship('Role', secondary='roles_users',
                          backref=backref('users', lazy='dynamic'))
+    
+    

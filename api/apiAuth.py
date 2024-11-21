@@ -1,3 +1,4 @@
+
 from helpers.uniquifier import generateUniqueString
 from .apiQuery import *
 
@@ -102,7 +103,7 @@ class enrolAppUser(graphene.Mutation):
 
         fs_uniquifierbuild = generateUniqueString('uniquifier')
         fs_uniquifier       = fs_uniquifierbuild.generateString()
-        new_lab = User(
+        new_user = User(
                         email                   = email,
                         password                = generate_password_hash(password, method="sha256"),
                         #password                = generate_password_hash(password, method="scrypt"),
@@ -110,7 +111,7 @@ class enrolAppUser(graphene.Mutation):
                     )
 
         try:
-            db.session.add(new_lab)
+            db.session.add(new_user)
             db.session.commit()
             db.session.close()
             error       = False
@@ -136,4 +137,59 @@ class enrolAppUser(graphene.Mutation):
                             message     = message,
                             success_msg = success_msg
                     )
+
+
+class activateAppUser(graphene.Mutation):
+    error       = graphene.Boolean()
+    success_msg = graphene.Boolean()
+    message     = graphene.String()
+
+    class Arguments:
+        email       = graphene.String(required=True)
+
+    @classmethod
+    def mutate(cls, __, info, email, **args):
+        # Validate the email
+        if not confirmEmail.isValid(email):
+            return activateAppUser(
+                error=True, 
+                message=f"{email} is not a valid email! Kindly use a valid email address.",
+                success_msg=False
+            )
+
+        # Query the user by email
+        existing_users = UserObject.get_query(info)
+        thisUser = existing_users.filter(UserModel.email == email).first()
+
+        if not thisUser:
+            return activateAppUser(
+                error=True,
+                message=f"No user found with email {email}. Please check the email or register first.",
+                success_msg=False
+            )
+
+        if thisUser.active:
+            return activateAppUser(
+                error=False,
+                message=f"The user with email {email} is already activated.",
+                success_msg=True
+            )
+
+        # Activate the user
+        try:
+            thisUser.active = True
+            db.session.commit()
+            message = f"User with email {email} has been successfully activated!"
+            return activateAppUser(
+                error=False,
+                message=message,
+                success_msg=True
+            )
+        except Exception as e:
+            db.session.rollback()
+            return activateAppUser(
+                error=True,
+                message=f"Activation failed due to an error: {str(e)}",
+                success_msg=False
+            )
 
