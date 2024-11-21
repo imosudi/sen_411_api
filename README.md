@@ -49,7 +49,9 @@ python main.py
 
 Visit http://localhost:8091
 
-## Sample usage
+## Sample User Enrolment:
+Visit: http://localhost:8091/api_mutation or http://machine-IP:8091/api_mutation
+
 QUERY:
 ```graphql
 mutation($enrolmentappuserinput: enrolmentAppUserInput!){
@@ -82,6 +84,48 @@ RESPONSE:
       "error": false,
       "successMsg": true,
       "message": "Registration for imosudi@gmail.com, successful! "
+    }
+  }
+}
+```
+
+## Sample User Authentication:
+Visit: http://localhost:8091/api_mutation or http://machine-IP:8091/api_mutation
+
+QUERY:
+```graphql
+mutation ($email: String!$password: String!) {
+  authenticateAppUser(
+  	email: $email
+    password: $password
+  ) {
+    error
+    successMsg
+    message
+    accessToken
+    refreshToken
+  }
+}
+```
+
+QUERY VARIABLES:
+```json
+{
+  "email": "imosudi@gmail.com",
+	"password": "nopasswordssddff"
+}
+```
+
+RESPONSE:
+```json
+{
+  "data": {
+    "authenticateAppUser": {
+      "error": true,
+      "successMsg": false,
+      "message": "Bad username or password! Kindly login with approved login details or request for user activation",
+      "accessToken": null,
+      "refreshToken": null
     }
   }
 }
