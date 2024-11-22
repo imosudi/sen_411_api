@@ -152,22 +152,22 @@ QUERY VARIABLES:
 ```json
 {
   "email": "imosudi@gmail.com",
-	"password": "nopassword"
+  "password": "nopassword"
 }
 ```
 
 RESPONSE:
 ```json
 {
-	"data": {
-		"authenticateAppUser": {
-			"error": false,
-			"successMsg": true,
-			"message": "success",
-			"accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA2NzM2LCJuYmYiOjE3MzIzMDY3MzYsImp0aSI6IjczMjBkMDM4LTMwNWEtNGZkZC1hZjBiLTYxZmZkN2NlMDg0YSIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMDczMzZ9.2q51TXWvmN4YLGZrjeojBa37Kjh6Qi7V1AORxRDNuho",
-			"refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTczMjMwNjczNiwibmJmIjoxNzMyMzA2NzM2LCJqdGkiOiI0NWUyMTY3Mi1lZjAxLTRjMzYtYTY1ZC05OGE3MzcwNjZmY2UiLCJpZGVudGl0eSI6Imltb3N1ZGlAZ21haWwuY29tIiwiZXhwIjoxNzMyNTY1OTM2fQ.imIpjdMvDtyNIoZLkaIkpF-UBpBWm_nMaFT6gJ6I1OQ"
-		}
-	}
+  "data": {
+    "authenticateAppUser": {
+      "error": false,
+      "successMsg": true,
+      "message": "success",
+      "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA5NTQ3LCJuYmYiOjE3MzIzMDk1NDcsImp0aSI6IjU3OTVlYTdkLTJmOTItNGFlZS05OTI0LWVhMDlhMjMyMDczMiIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMTAxNDd9.lFNU-tNiOK13h5dwrchOCGZH9Vpx4dB32KzqvO2Ug84",
+      "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTczMjMwOTU0NywibmJmIjoxNzMyMzA5NTQ3LCJqdGkiOiI5MTkwYTc3Ni1hNTYwLTQ0N2MtODc1MC1iYTFkNmVkMTg1MjkiLCJpZGVudGl0eSI6Imltb3N1ZGlAZ21haWwuY29tIiwiZXhwIjoxNzMyNTY4NzQ3fQ.DaVBEeRPQnpr7oLwdI0oClLrB7nDJ3BiS9QehlhfsBM"
+    }
+  }
 }
 ```
 
@@ -191,28 +191,28 @@ query($token:String!){
 QUERY VARIABLES:
 ```json
 {
-	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA2NzM2LCJuYmYiOjE3MzIzMDY3MzYsImp0aSI6IjczMjBkMDM4LTMwNWEtNGZkZC1hZjBiLTYxZmZkN2NlMDg0YSIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMDczMzZ9.2q51TXWvmN4YLGZrjeojBa37Kjh6Qi7V1AORxRDNuho"
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA5NTQ3LCJuYmYiOjE3MzIzMDk1NDcsImp0aSI6IjU3OTVlYTdkLTJmOTItNGFlZS05OTI0LWVhMDlhMjMyMDczMiIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMTAxNDd9.lFNU-tNiOK13h5dwrchOCGZH9Vpx4dB32KzqvO2Ug84"
 }
 ```
 
 RESPONSE:
 ```json
 {
-	"data": {
-		"allUsers": {
-			"edges": [
-				{
-					"node": {
-						"email": "imosudi@gmail.com"
-					}
-				},
-				{
-					"node": {
-						"email": "imosudi@outlook.com"
-					}
-				}
-			]
-		}
-	}
+  "data": {
+    "allUsers": {
+      "edges": [
+        {
+          "node": {
+            "email": "imosudi@gmail.com"
+          }
+        },
+        {
+          "node": {
+            "email": "imosudi@outlook.com"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
