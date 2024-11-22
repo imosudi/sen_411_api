@@ -93,8 +93,8 @@ class enrolAppUser(graphene.Mutation):
             )
 
         # Check if the user already exists
-        existing_users = UserObject.get_query(info)
-        thisUser = existing_users.filter(UserModel.email == email).first()
+        existing_users  = UserObject.get_query(info)
+        thisUser        = existing_users.filter(UserModel.email == email).first()
 
         if thisUser:
             return enrolAppUser(
@@ -104,11 +104,11 @@ class enrolAppUser(graphene.Mutation):
             )
 
         # Generate unique identifier
-        fs_uniquifierbuild = generateUniqueString('uniquifier')
-        fs_uniquifier = fs_uniquifierbuild.generateString()
+        fs_uniquifierbuild  = generateUniqueString('uniquifier')
+        fs_uniquifier       = fs_uniquifierbuild.generateString()
 
         # Check if this is the first user
-        is_first_user = not existing_users.count()
+        is_first_user       = not existing_users.count()
 
         # Create the new user
         new_user = User(
@@ -116,7 +116,8 @@ class enrolAppUser(graphene.Mutation):
             password=generate_password_hash(password, method="sha256"),
             fs_uniquifier=fs_uniquifier,
             active=is_first_user,  # Activate the first user by default
-            is_valid_client=is_first_user  # Validate the first user by default
+            is_valid_client=is_first_user,  # Validate the first user by default
+            is_admin=is_first_user
         )
 
         # Add the new user to the database
@@ -124,6 +125,8 @@ class enrolAppUser(graphene.Mutation):
             db.session.add(new_user)
             db.session.commit()
             message = f"Registration for {email} successful!"
+            if is_first_user:
+                message = f"Registration for {email} successful! This is the primary admin account"
             return enrolAppUser(
                 error=False,
                 message=message,
@@ -154,11 +157,32 @@ class activateAppUser(graphene.Mutation):
 
     class Arguments:
         email       = graphene.String(required=True)
+        adminemail  = graphene.String(required=True)
         token       = graphene.String(required=True)
 
     @classmethod
     @mutation_jwt_required
-    def mutate(cls, __, info, email, **args):
+    def mutate(cls, __, info, email, adminemail, **args):
+        # Validate the adminemail
+        if not confirmEmail.isValid(adminemail):
+            return activateAppUser(
+                error=True, 
+                message=f"{email} is not a valid admin email! Kindly use a valid email address.",
+                success_msg=False
+            )
+
+        # Query the user by email
+        existing_users  = UserObject.get_query(info)
+        adminUser       = existing_users.filter(UserModel.email == adminemail).first()
+        
+        if not adminUser:
+            return activateAppUser(
+                error=True,
+                message=f"This email {email} does not belong to the admin group. You're not allowed to activate another user.",
+                success_msg=False
+            )
+
+
         # Validate the email
         if not confirmEmail.isValid(email):
             return activateAppUser(
@@ -168,8 +192,9 @@ class activateAppUser(graphene.Mutation):
             )
 
         # Query the user by email
-        existing_users = UserObject.get_query(info)
-        thisUser = existing_users.filter(UserModel.email == email).first()
+        existing_users  = UserObject.get_query(info)
+        thisUser        = existing_users.filter(UserModel.email == email).first()
+        
 
         if not thisUser:
             return activateAppUser(
@@ -210,11 +235,31 @@ class deactivateAppUser(graphene.Mutation):
 
     class Arguments:
         email       = graphene.String(required=True)
+        adminemail  = graphene.String(required=True)
         token       = graphene.String(required=True)
 
     @classmethod
     @mutation_jwt_required
-    def mutate(cls, __, info, email, **args):
+    def mutate(cls, __, info, email, adminemail, **args):
+        # Validate the adminemail
+        if not confirmEmail.isValid(adminemail):
+            return deactivateAppUser(
+                error=True, 
+                message=f"{email} is not a valid admin email! Kindly use a valid email address.",
+                success_msg=False
+            )
+
+        # Query the user by email
+        existing_users  = UserObject.get_query(info)
+        adminUser       = existing_users.filter(UserModel.email == adminemail).first()
+        
+        if not adminUser:
+            return deactivateAppUser(
+                error=True,
+                message=f"This email {email} does not belong to the admin group. You're not allowed to deactivate another user.",
+                success_msg=False
+            )
+        
         # Validate the email
         if not confirmEmail.isValid(email):
             return deactivateAppUser(
@@ -267,11 +312,31 @@ class validateAppUser(graphene.Mutation):
 
     class Arguments:
         email       = graphene.String(required=True)
+        adminemail  = graphene.String(required=True)
         token       = graphene.String(required=True)
 
     @classmethod
     @mutation_jwt_required
-    def mutate(cls, __, info, email, **args):
+    def mutate(cls, __, info, email, adminemail, **args):
+        # Validate the adminemail
+        if not confirmEmail.isValid(adminemail):
+            return validateAppUser(
+                error=True, 
+                message=f"{email} is not a valid admin email! Kindly use a valid email address.",
+                success_msg=False
+            )
+
+        # Query the user by email
+        existing_users  = UserObject.get_query(info)
+        adminUser       = existing_users.filter(UserModel.email == adminemail).first()
+        
+        if not adminUser:
+            return validateAppUser(
+                error=True,
+                message=f"This email {email} does not belong to the admin group. You're not allowed to validate another user.",
+                success_msg=False
+            )
+        
         # Validate the email
         if not confirmEmail.isValid(email):
             return validateAppUser(

@@ -29,6 +29,7 @@ class User(db.Model, UserMixin): #fsqla.FsUserMixin):
     login_count         = db.Column(db.Integer)
     active              = db.Column(db.Boolean())
     is_valid_client     = db.Column(db.Boolean())
+    is_admin            = db.Column(db.Boolean())
     fs_uniquifier       = db.Column(db.String(64), unique=True, nullable=False)
     confirmed_at        = db.Column(db.DateTime())
     roles               = relationship('Role', secondary='roles_users',
