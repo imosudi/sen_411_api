@@ -177,14 +177,14 @@ QUERY:
 ```graphql
 query($token:String!){
   allUsers(
-		token:	$token
-	){
-		edges{
-			node{
-				email
-			}
-		}
-	}
+    token:	$token
+  ){
+    edges{
+      node{
+        email
+      }
+    }
+  }
 }
 ```
 
