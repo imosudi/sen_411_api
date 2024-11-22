@@ -128,3 +128,38 @@ class Query(graphene.ObjectType):
         all_students        = StudentObject.get_query(info)
         thestudent         = all_students.filter(and_(StudentModel.matric_number==matric, StudentModel.email==email))#.first()
         return thestudent
+
+    
+    students_record_by_department                          = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      department=graphene.String(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_students_record_by_department(self, info, department, **args): 
+        all_students        = StudentObject.get_query(info)
+        thestudents          = all_students.filter(StudentModel.department==department)#.first()
+        return thestudents
+    
+    students_record_by_faculty                          = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      faculty=graphene.String(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_students_record_by_faculty(self, info, faculty, **args): 
+        all_students        = StudentObject.get_query(info)
+        thestudents          = all_students.filter(StudentModel.faculty==faculty)#.first()
+        return thestudents
+    
+
+    students_record_by_level                          = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      level=graphene.Int(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_students_record_by_level(self, info, level, **args): 
+        all_students        = StudentObject.get_query(info)
+        thestudents          = all_students.filter(StudentModel.level==level)#.first()
+        return thestudents

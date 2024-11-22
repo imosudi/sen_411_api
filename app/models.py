@@ -51,7 +51,9 @@ class Student(db.Model):
     phone_number    = db.Column(db.String(20), nullable=False)
     address         = db.Column(db.String(200), nullable=True)
     department      = db.Column(db.String(100), nullable=False)
+    faculty         = db.Column(db.String(100), nullable=False)
     enrollment_year = db.Column(db.Integer, nullable=False)
+    level           = db.Column(db.Integer, nullable=False)
     current_gpa     = db.Column(db.Float, nullable=True)
     is_active       = db.Column(db.Boolean, default=False)
 
