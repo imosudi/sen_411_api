@@ -7,7 +7,7 @@ from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import or_, and_
-from api.filters import Userfilter
+from api.filters import Studentfilter, Userfilter
 from app import db
 
 from flask_graphql_auth import (
@@ -74,3 +74,57 @@ class Query(graphene.ObjectType):
     def resolve_all_users(self, info, **args): 
         allusers        = UserObject.get_query(info)
         return allusers
+    
+    user_by_email                           = SQLAlchemyConnectionField(UserObject.connection,
+                                                                    filters=Userfilter(),
+                                                                      email=graphene.String(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_user_by_email(self, info, email, **args): 
+        allusers        = UserObject.get_query(info)
+        theuser         = allusers.filter(UserModel.email==email)#.first()
+        return theuser
+    
+    all_student_record                           = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_all_student_record(self, info, **args): 
+        all_students        = StudentObject.get_query(info)
+        return all_students
+    
+    student_record_by_email                           = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      email=graphene.String(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_student_record_by_email(self, info, email, **args): 
+        all_students        = StudentObject.get_query(info)
+        thestudent         = all_students.filter(StudentModel.email==email)#.first()
+        return thestudent
+    
+    student_record_by_matric                           = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      matric=graphene.String(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_student_record_by_matric(self, info, matric, **args): 
+        all_students        = StudentObject.get_query(info)
+        thestudent         = all_students.filter(StudentModel.matric_number==matric)#.first()
+        return thestudent
+    
+    student_record_by_email_matric                           = SQLAlchemyConnectionField(StudentObject.connection,
+                                                                    filters=Studentfilter(),
+                                                                      email=graphene.String(required=True),
+                                                                      matric=graphene.String(required=True),
+                                                                      token=graphene.String(required=True)
+                                                                    )
+    @query_jwt_required
+    def resolve_student_record_by_email_matric(self, info, email, matric, **args): 
+        all_students        = StudentObject.get_query(info)
+        thestudent         = all_students.filter(and_(StudentModel.matric_number==matric, StudentModel.email==email))#.first()
+        return thestudent
