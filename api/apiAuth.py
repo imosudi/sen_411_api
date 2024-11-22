@@ -154,8 +154,10 @@ class activateAppUser(graphene.Mutation):
 
     class Arguments:
         email       = graphene.String(required=True)
+        token       = graphene.String(required=True)
 
     @classmethod
+    @mutation_jwt_required
     def mutate(cls, __, info, email, **args):
         # Validate the email
         if not confirmEmail.isValid(email):
@@ -207,9 +209,11 @@ class deactivateAppUser(graphene.Mutation):
     message     = graphene.String()
 
     class Arguments:
-        email = graphene.String(required=True)
+        email       = graphene.String(required=True)
+        token       = graphene.String(required=True)
 
     @classmethod
+    @mutation_jwt_required
     def mutate(cls, __, info, email, **args):
         # Validate the email
         if not confirmEmail.isValid(email):
@@ -263,8 +267,10 @@ class validateAppUser(graphene.Mutation):
 
     class Arguments:
         email       = graphene.String(required=True)
+        token       = graphene.String(required=True)
 
     @classmethod
+    @mutation_jwt_required
     def mutate(cls, __, info, email, **args):
         # Validate the email
         if not confirmEmail.isValid(email):
