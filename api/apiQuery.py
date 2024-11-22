@@ -38,6 +38,9 @@ class enrolmentAppUserInput(graphene.InputObjectType):
     password                = graphene.String()
     password_confirm        = graphene.String()
 
+class authenticateAppUserInput(graphene.InputObjectType):
+    email                   = graphene.String()
+    password                = graphene.String()
 
 class Query(graphene.ObjectType):
     ''' We can set the schema description for an Object Type here on a docstring '''
@@ -50,5 +53,4 @@ class Query(graphene.ObjectType):
     @query_jwt_required
     def resolve_all_users(self, info, **args): 
         allusers        = UserObject.get_query(info)
-        #allusers        = allusers.filter(UserModel.email=="imosudi@gmail.com").all()
         return allusers

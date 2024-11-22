@@ -88,8 +88,7 @@ RESPONSE:
   }
 }
 ```
-
-## Sample User Authentication:
+## Sample User Authentication -Failed :
 Visit: http://localhost:8091/api_mutation or http://machine-IP:8091/api_mutation
 
 QUERY:
@@ -128,5 +127,92 @@ RESPONSE:
       "refreshToken": null
     }
   }
+}
+```
+
+## Sample User Authentication -Successful :
+
+QUERY:
+```graphql
+mutation ($email: String!$password: String!) {
+  authenticateAppUser(
+  	email: $email
+    password: $password
+  ) {
+    error
+    successMsg
+    message
+    accessToken
+    refreshToken
+  }
+}
+```
+
+QUERY VARIABLES:
+```json
+{
+  "email": "imosudi@gmail.com",
+	"password": "nopassword"
+}
+```
+
+RESPONSE:
+```json
+{
+	"data": {
+		"authenticateAppUser": {
+			"error": false,
+			"successMsg": true,
+			"message": "success",
+			"accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA2NzM2LCJuYmYiOjE3MzIzMDY3MzYsImp0aSI6IjczMjBkMDM4LTMwNWEtNGZkZC1hZjBiLTYxZmZkN2NlMDg0YSIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMDczMzZ9.2q51TXWvmN4YLGZrjeojBa37Kjh6Qi7V1AORxRDNuho",
+			"refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTczMjMwNjczNiwibmJmIjoxNzMyMzA2NzM2LCJqdGkiOiI0NWUyMTY3Mi1lZjAxLTRjMzYtYTY1ZC05OGE3MzcwNjZmY2UiLCJpZGVudGl0eSI6Imltb3N1ZGlAZ21haWwuY29tIiwiZXhwIjoxNzMyNTY1OTM2fQ.imIpjdMvDtyNIoZLkaIkpF-UBpBWm_nMaFT6gJ6I1OQ"
+		}
+	}
+}
+```
+
+## Sample Query secure with JWT Access token from successful authntication :
+
+QUERY:
+```graphql
+query($token:String!){
+  allUsers(
+		token:	$token
+	){
+		edges{
+			node{
+				email
+			}
+		}
+	}
+}
+```
+
+QUERY VARIABLES:
+```json
+{
+	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA2NzM2LCJuYmYiOjE3MzIzMDY3MzYsImp0aSI6IjczMjBkMDM4LTMwNWEtNGZkZC1hZjBiLTYxZmZkN2NlMDg0YSIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMDczMzZ9.2q51TXWvmN4YLGZrjeojBa37Kjh6Qi7V1AORxRDNuho"
+}
+```
+
+RESPONSE:
+```json
+{
+	"data": {
+		"allUsers": {
+			"edges": [
+				{
+					"node": {
+						"email": "imosudi@gmail.com"
+					}
+				},
+				{
+					"node": {
+						"email": "imosudi@outlook.com"
+					}
+				}
+			]
+		}
+	}
 }
 ```
