@@ -171,7 +171,7 @@ RESPONSE:
 }
 ```
 
-## Sample Query secure with JWT Access token from successful authntication :
+## Sample Secure Query with JWT Access token from a successful authentication :
 
 QUERY:
 ```graphql
