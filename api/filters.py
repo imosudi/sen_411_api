@@ -16,3 +16,23 @@ class Userfilter(FilterSet):
             'active': ALL_OPERATIONS,
             'login_count': ALL_OPERATIONS,
         }
+
+
+class Studentfilter(FilterSet):
+    class Meta:
+        model   = Student
+        fields  = {
+            'first_name': ALL_OPERATIONS,
+            'middle_name': ALL_OPERATIONS,
+            'last_name': ALL_OPERATIONS,
+            'date_of_birth': ALL_OPERATIONS,
+            'gender': ALL_OPERATIONS,
+            'matric_number': ALL_OPERATIONS,
+            'email': ALL_OPERATIONS,
+            'phone_number': ALL_OPERATIONS,
+            'address': ALL_OPERATIONS,
+            'department': ALL_OPERATIONS,
+            'enrollment_year': ALL_OPERATIONS,
+            'current_gpa': ALL_OPERATIONS,
+            'is_active': ALL_OPERATIONS,
+        }
