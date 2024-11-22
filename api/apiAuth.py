@@ -61,7 +61,6 @@ class authenticateAppUser(graphene.Mutation):
                 refreshToken    = f"{refreshToken}"
             )
 
-
 class enrolAppUser(graphene.Mutation):
     class Arguments:
         enrolmentappuserinput = enrolmentAppUserInput(required=True)
@@ -148,7 +147,6 @@ class enrolAppUser(graphene.Mutation):
                 message=f"Registration failed due to an error: {str(e)}",
                 success_msg=False
             )
-
 
 class activateAppUser(graphene.Mutation):
     error       = graphene.Boolean()
@@ -303,7 +301,6 @@ class deactivateAppUser(graphene.Mutation):
                 message=f"Deactivation failed due to an error: {str(e)}",
                 success_msg=False
             )
-
 
 class validateAppUser(graphene.Mutation):
     error       = graphene.Boolean()

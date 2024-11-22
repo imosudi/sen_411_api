@@ -3,7 +3,9 @@ from sqlalchemy.orm import relationship, backref
 from flask_security.models import fsqla_v3 as fsqla
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy import Boolean, DateTime, Column, Integer, \
-                    String, ForeignKey, UnicodeText
+                    String, ForeignKey, UnicodeText,\
+                          Integer, String, Date, Float, Boolean, ForeignKey
+
 
 from . import  db #app, db
 
@@ -35,4 +37,24 @@ class User(db.Model, UserMixin): #fsqla.FsUserMixin):
     roles               = relationship('Role', secondary='roles_users',
                          backref=backref('users', lazy='dynamic'))
     
-    
+
+class Student(db.Model):
+    __tablename__ = 'students'
+    id              = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    first_name      = db.Column(db.String(50), nullable=True)
+    middle_name     = db.Column(db.String(50), nullable=False)
+    last_name       = db.Column(db.String(50), nullable=False)
+    date_of_birth   = db.Column(db.Date, nullable=False)
+    gender          = db.Column(db.String(10), nullable=False)
+    matric_number   = db.Column(db.String(20), unique=True, nullable=False)
+    email           = db.Column(db.String(100), unique=True, nullable=False)
+    phone_number    = db.Column(db.String(20), nullable=False)
+    address         = db.Column(db.String(200), nullable=True)
+    department      = db.Column(db.String(100), nullable=False)
+    enrollment_year = db.Column(db.Integer, nullable=False)
+    current_gpa     = db.Column(db.Float, nullable=True)
+    is_active       = db.Column(db.Boolean, default=False)
+
+
+    def __repr__(self):
+        return f"<Student(id={self.id}, name={self.first_name} {self.last_name}, department={self.department})>"

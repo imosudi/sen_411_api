@@ -23,20 +23,40 @@ from flask_graphql_auth import (
 )
 from helpers import confirmEmail
 
-from app.models import User 
+from app.models import User, Student
 
 from app.models import User as UserModel
+from app.models import Student as StudentModel
 
 class UserObject(SQLAlchemyObjectType):
     class Meta:
         model           = UserModel
         interfaces      = (graphene.relay.Node,)
 
+class StudentObject(SQLAlchemyObjectType):
+    class Meta:
+        model           = StudentModel
+        interfaces      = (graphene.relay.Node,)
 
 class enrolmentAppUserInput(graphene.InputObjectType):
     email                   = graphene.String()
     password                = graphene.String()
     password_confirm        = graphene.String()
+
+class studentDataInput(graphene.InputObjectType):
+    first_name      = graphene.String(required=True)
+    middle_name     = graphene.String()
+    last_name       = graphene.String(required=True)
+    date_of_birth   = graphene.String(required=True)  # Should be in 'YYYY-MM-DD' format
+    gender          = graphene.String(required=True)
+    matric_number   = graphene.String(required=True)
+    email           = graphene.String(required=True)
+    phone_number    = graphene.String(required=True)
+    address         = graphene.String()
+    department      = graphene.String(required=True)
+    enrollment_year = graphene.Int(required=True)
+    current_gpa     = graphene.Float()
+        
 
 class authenticateAppUserInput(graphene.InputObjectType):
     email                   = graphene.String()

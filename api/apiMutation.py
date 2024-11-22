@@ -1,5 +1,6 @@
 from api.apiQuery import *
 from api.apiAuth import activateAppUser, deactivateAppUser, enrolAppUser, authenticateAppUser, refreshMutation, validateAppUser
+from api.student_records import addStudentData
 
 
 class Mutation(graphene.ObjectType):
@@ -11,6 +12,8 @@ class Mutation(graphene.ObjectType):
     activate_app_user               = activateAppUser.Field()
     deactivate_app_user             = deactivateAppUser.Field()
     validate_app_user               = validateAppUser.Field()
+
+    add_student_data                = addStudentData.Field()
     
 
 
