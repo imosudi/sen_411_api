@@ -47,13 +47,15 @@ class studentDataInput(graphene.InputObjectType):
     first_name      = graphene.String(required=True)
     middle_name     = graphene.String()
     last_name       = graphene.String(required=True)
-    date_of_birth   = graphene.String(required=True)  # Should be in 'YYYY-MM-DD' format
+    date_of_birth   = graphene.String()  # Should be in 'YYYY-MM-DD' format
     gender          = graphene.String(required=True)
     matric_number   = graphene.String(required=True)
     email           = graphene.String(required=True)
     phone_number    = graphene.String(required=True)
     address         = graphene.String()
     department      = graphene.String(required=True)
+    faculty         = graphene.String(required=True)
+    level           = graphene.Int(required=True)
     enrollment_year = graphene.Int(required=True)
     current_gpa     = graphene.Float()
         

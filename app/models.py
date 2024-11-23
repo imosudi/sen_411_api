@@ -44,7 +44,7 @@ class Student(db.Model):
     first_name      = db.Column(db.String(50), nullable=True)
     middle_name     = db.Column(db.String(50), nullable=False)
     last_name       = db.Column(db.String(50), nullable=False)
-    date_of_birth   = db.Column(db.Date, nullable=False)
+    date_of_birth   = db.Column(db.Date, nullable=True)
     gender          = db.Column(db.String(10), nullable=False)
     matric_number   = db.Column(db.String(20), unique=True, nullable=False)
     email           = db.Column(db.String(100), unique=True, nullable=False)

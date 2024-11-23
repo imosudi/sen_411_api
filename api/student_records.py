@@ -24,6 +24,8 @@ class addStudentData(graphene.Mutation):
         phone_number    = studentdatainput.phone_number
         address         = studentdatainput.address
         department      = studentdatainput.department
+        faculty         = studentdatainput.faculty
+        level           = studentdatainput.level
         enrollment_year = studentdatainput.enrollment_year
         current_gpa     = studentdatainput.current_gpa
 
@@ -37,16 +39,10 @@ class addStudentData(graphene.Mutation):
             )
 
         # Check if the matric number or email already exists
-        existing_student_by_email = (
-            info.context.get("session").query(Student).filter_by(email=email).first()
-        )
-        existing_student_by_matric = (
-            info.context.get("session")
-            .query(Student)
-            .filter_by(matric_number=matric_number)
-            .first()
-        )
-
+        allstudents                 = StudentObject.get_query(info)
+        existing_student_by_email   = allstudents.filter(StudentModel.email==email).first()
+        existing_student_by_matric  = allstudents.filter(StudentModel.matric_number==matric_number).first()
+        
         if existing_student_by_email or existing_student_by_matric:
             return addStudentData(
                 error=True,
@@ -63,6 +59,8 @@ class addStudentData(graphene.Mutation):
                 message="Invalid date format for date_of_birth. Use 'YYYY-MM-DD'.",
                 success_msg=False,
             )
+        except:
+            pass
 
         # Create  student new_data object
         new_data = Student(
@@ -76,6 +74,8 @@ class addStudentData(graphene.Mutation):
             phone_number    = phone_number,
             address         = address,
             department      = department,
+            faculty         = faculty,
+            level           = level,
             enrollment_year = enrollment_year,
             current_gpa     = current_gpa,
             is_active       = True,  # Activate student by default
