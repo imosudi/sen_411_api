@@ -223,13 +223,13 @@ QUERY:
 ```
 mutation($studentdatainput: studentDataInput!, $token:String!){
   addStudentData(
-		token:	$token
-		studentdatainput: $studentdatainput
-	){
-		error
-		message
-		successMsg
-	}
+    token:	$token
+    studentdatainput: $studentdatainput
+  ){
+    error
+    message
+    successMsg
+  }
 }
 ```
 
