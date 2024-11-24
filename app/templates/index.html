@@ -1,12 +1,43 @@
 {% extends "base.html" %}
 {% block body %}
-    Software Engineering Lab Test API
-    <ul>
-        <li>
-            <a href="/api_query"> API Queries</a>
-        </li>
-        <li>
-            <a href="/api_mutation"> API Mutations</a>
-        </li>
-    </ul>
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="row mb-4 text-center">
+        <div class="col">
+            <img src="{{ url_for('static', filename='dsa.png') }}" alt="Department Logo" 
+                 class="img-fluid" style="max-width: 280px; max-height: 323px;">
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+            <h1 class="display-5 fw-bold text-primary">
+                Department of Software Engineering <br> Veritas University, Abuja
+            </h1>
+        </div>
+    </div>
+    
+    <!-- Content Section -->
+    <div class="row">
+        <div class="col text-center">
+            <h2 class="text-secondary">Software Engineering Lab Test API</h2>
+            <p class="lead">A basic startup point for API development: Explore the available API functionalities below:</p>
+        </div>
+    </div>
+    
+    <!-- Navigation Links -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-4">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="/api_query" class="text-decoration-none text-primary">
+                        <i class="bi bi-search"></i> API Queries
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="/api_mutation" class="text-decoration-none text-primary">
+                        <i class="bi bi-pencil"></i> API Mutations
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
