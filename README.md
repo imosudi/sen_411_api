@@ -260,7 +260,7 @@ RESPONSE:
   "data": {
     "addStudentData": {
       "error": false,
-      "message": "Student Isiaka Mosudi successfully registered.",
+      "message": "Student Isiaka Mosudi record successfully created.",
       "successMsg": true
     }
   }

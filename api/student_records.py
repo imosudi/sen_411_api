@@ -87,7 +87,7 @@ class addStudentData(graphene.Mutation):
             db.session.commit()
             return addStudentData(
                 error=False,
-                message=f"Student {new_data.first_name} {new_data.last_name} successfully registered.",
+                message=f"Student {new_data.first_name} {new_data.last_name} record successfully created.",
                 success_msg=True,
             )
 
