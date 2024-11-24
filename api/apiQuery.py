@@ -64,6 +64,18 @@ class authenticateAppUserInput(graphene.InputObjectType):
     email                   = graphene.String()
     password                = graphene.String()
 
+
+class MessageField(graphene.ObjectType):
+    message         = graphene.String()
+    status          = graphene.String()
+
+    def resolve_message(root, info):
+        return '{}'.format( 
+            root.message,
+              root.status 
+            )
+    
+
 class Query(graphene.ObjectType):
     ''' We can set the schema description for an Object Type here on a docstring '''
     node                                = graphene.relay.Node.Field()
