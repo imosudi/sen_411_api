@@ -220,7 +220,7 @@ RESPONSE:
 ## Sample Secure Mutation with JWT Access token from a successful authentication :
 
 QUERY:
-```
+```graphql
 mutation($studentdatainput: studentDataInput!, $token:String!){
   addStudentData(
     token:	$token
@@ -262,6 +262,82 @@ RESPONSE:
       "error": false,
       "message": "Student Isiaka Mosudi successfully registered.",
       "successMsg": true
+    }
+  }
+}
+```
+
+## Student data Secure Query with JWT Access token from a successful authentication :
+
+QUERY:
+```graphql
+query($token:String!){
+  allStudentRecord(
+    token:$token
+  ){
+    edges{
+      node{
+        email
+        matricNumber
+        firstName
+        middleName
+        lastName
+        phoneNumber
+        level
+        enrollmentYear
+        department
+        faculty
+        gender
+      }
+    }
+  }
+}
+```
+
+QUERY VARIABLES:
+```json
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA5NTQ3LCJuYmYiOjE3MzIzMDk1NDcsImp0aSI6IjU3OTVlYTdkLTJmOTItNGFlZS05OTI0LWVhMDlhMjMyMDczMiIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMTAxNDd9.lFNU-tNiOK13h5dwrchOCGZH9Vpx4dB32KzqvO2Ug84"
+}
+```
+
+RESPONSE:
+```json
+{
+  "data": {
+    "allStudentRecord": {
+      "edges": [
+        {
+          "node": {
+            "email": "imosudi@gmail.com",
+            "matricNumber": "22/34566",
+            "firstName": "Isiaka",
+            "middleName": "Olukayode",
+            "lastName": "Mosudi",
+            "phoneNumber": "08053673498",
+            "level": 600,
+            "enrollmentYear": 2022,
+            "department": "Department of Software Engineering",
+            "faculty": "Natural and Applied Science",
+            "gender": "Male"
+          }
+        },
+        {
+          "node": {
+            "email": "imosudi@outlook.com",
+            "matricNumber": "22/34567",
+            "firstName": "Isiaka",
+            "middleName": "Olukayode",
+            "lastName": "Mosudi",
+            "phoneNumber": "08053673498",
+            "level": 600,
+            "enrollmentYear": 2022,
+            "department": "Department of Software Engineering",
+            "faculty": "Natural and Applied Science",
+            "gender": "Male"
+          }
+        }
+      ]
     }
   }
 }
