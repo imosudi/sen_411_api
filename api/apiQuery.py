@@ -1,3 +1,4 @@
+from email import message
 import json
 import math
 from decimal import Decimal, ROUND_UP
@@ -74,7 +75,34 @@ class MessageField(graphene.ObjectType):
             root.message,
               root.status 
             )
-    
+class StatusField(graphene.ObjectType):
+    status = graphene.String()
+
+    def resolve_status(root, info):
+        return '{}'.format(root.status)
+
+class SuccessField(graphene.ObjectType):
+    success = graphene.String()
+
+    def resolve_success(root, info):
+        return '{}'.format(root.success)
+
+
+class ProtectedUnion(graphene.Union):
+    class Meta:
+        types = (MessageField, AuthInfoField)# StatusField, AuthInfoField)
+
+    @classmethod
+    def resolve_type(cls, instance, info):
+        return type(instance)
+
+class protectedQuery(graphene.ObjectType):
+    protected = graphene.Field(type=ProtectedUnion, token=graphene.String())
+
+    @query_jwt_required
+    def resolve_protected(self, info):
+        return AuthInfoField(message)
+
 
 class Query(graphene.ObjectType):
     ''' We can set the schema description for an Object Type here on a docstring '''
