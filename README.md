@@ -237,20 +237,20 @@ QUERY VARIABLES:
 ```json
 {
 	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMyMzA5NTQ3LCJuYmYiOjE3MzIzMDk1NDcsImp0aSI6IjU3OTVlYTdkLTJmOTItNGFlZS05OTI0LWVhMDlhMjMyMDczMiIsImlkZW50aXR5IjoiaW1vc3VkaUBnbWFpbC5jb20iLCJleHAiOjE3MzIzMTAxNDd9.lFNU-tNiOK13h5dwrchOCGZH9Vpx4dB32KzqvO2Ug84",
-	"studentdatainput": {
-		"email": "imosudi@outlook.com",
-		"gender": "Male",
-		"firstName": "Isiaka",
-		"lastName": "Mosudi",
-		"middleName": "Olukayode",
-		"matricNumber": "22/34567",
-		"phoneNumber": "08053673498",
-		"enrollmentYear": 2022,
-		"level": 600,
-		"address": "Block A",
-		"department": "Department of Software Engineering",
-		"faculty": "Natural and Applied Science"
-	}
+  "studentdatainput": {
+    "email": "imosudi@outlook.com",
+    "gender": "Male",
+    "firstName": "Isiaka",
+    "lastName": "Mosudi",
+    "middleName": "Olukayode",
+    "matricNumber": "22/34567",
+    "phoneNumber": "08053673498",
+    "enrollmentYear": 2022,
+    "level": 600,
+    "address": "Block A",
+    "department": "Department of Software Engineering",
+    "faculty": "Natural and Applied Science"
+  }
 }
 ```
 
